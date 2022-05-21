@@ -25,23 +25,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
-
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
     private TemanAdapter adapter;
     private ArrayList<Teman> temanArrayList = new ArrayList<>();
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static String url_select = "http://192.168.100.5/umyTI/bacateman.php";
-    public static final String TAG_ID = "id";
-    public static final String TAG_NAMA = "nama";
-    public static final String TAG_TELPON = "telpon";
+    private static String url_select        = "http://192.168.100.5/umyTI/bacateman.php";
 
-    String id,nm, tlp;
-
+    public static final String TAG_ID       = "id";
+    public static final String TAG_NAMA     = "nama";
+    public static final String TAG_TELPON   = "telpon";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,28 +60,34 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-
     public  void  bacaData(){
+        temanArrayList.clear();
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
         JsonArrayRequest jArr = new JsonArrayRequest(url_select,new Response.Listener<JSONArray>(){
             @Override
             public void onResponse(JSONArray response){
                 Log.d(TAG, response.toString());
+
                 //Parsing json
                 for (int i=0; i<response.length();i++){
                     try {
                         JSONObject obj = response.getJSONObject(i);
+
                         Teman item = new Teman();
+
                         item.setId(obj.getString(TAG_ID));
                         item.setNama(obj.getString(TAG_NAMA));
                         item.setTelpon(obj.getString(TAG_TELPON));
+
+                        // menambah item ke array
                         temanArrayList.add(item);
                     } catch (JSONException e){
                         e.printStackTrace();
                     }
                 }
+                adapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener(){
             @Override
