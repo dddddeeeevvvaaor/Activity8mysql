@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Teman> temanArrayList = new ArrayList<>();
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static String url_select        = "http://192.168.100.5/umyTI/bacateman.php";
+    private static String url_select        = "https://20200140076.praktikumtiumy.com/bacateman.php";
 
     public static final String TAG_ID       = "id";
     public static final String TAG_NAMA     = "nama";
